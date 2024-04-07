@@ -11,11 +11,34 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const handleLoginClick = () => {
+    const handleLoginClick = async () => {
         console.log("Username:", username);
         console.log("Password:", password);
-
-        navigate('/home');
+    
+        try {
+            const response = await fetch('http://localhost:5209/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+            if (response.ok) {
+                const data = await response.json(); // Parse the response
+                const jwtToken = data.token;
+                const refreshToken = data.refreshToken;
+    
+                // Store tokens (see below) 
+                console.log("Token:", jwtToken);
+                console.log("RefreshToken:", refreshToken);
+                
+                navigate('/home'); 
+            } else { 
+                // ... handle failed login
+            }
+        } catch (error) {
+            console.error('Error during login:', error); 
+        }
     };
 
     return (
