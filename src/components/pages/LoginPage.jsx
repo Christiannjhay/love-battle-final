@@ -59,7 +59,7 @@ export default function LoginPage() {
                 <div className="flex justify-center mt-9">
                     <div className="w-[291px] h-[47px]">
                         <Password value={password} onChange={setPassword} />
-                        {loginError && (<div className="text-red-500 text-sm">Incorrect username or password</div>
+                        {loginError && (<div className="text-red-500 text-xs">Incorrect username or password</div>
                         )}
                     </div>
                 </div>
