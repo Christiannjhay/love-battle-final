@@ -9,12 +9,13 @@ import { useNavigate } from 'react-router-dom';
 export default function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [loginError, setLoginError] = useState(false);
     const navigate = useNavigate();
 
     const handleLoginClick = async () => {
         console.log("Username:", username);
         console.log("Password:", password);
-    
+
         try {
             const response = await fetch('http://localhost:5209/api/auth/login', {
                 method: 'POST',
@@ -27,17 +28,17 @@ export default function LoginPage() {
                 const data = await response.json(); // Parse the response
                 const jwtToken = data.token;
                 const refreshToken = data.refreshToken;
-    
+
                 // Store tokens (see below) 
                 console.log("Token:", jwtToken);
                 console.log("RefreshToken:", refreshToken);
-                
-                navigate('/home'); 
-            } else { 
-                // ... handle failed login
+
+                navigate('/home');
+            } else {
+                setLoginError(true);
             }
         } catch (error) {
-            console.error('Error during login:', error); 
+            console.error('Error during login:', error);
         }
     };
 
@@ -58,12 +59,14 @@ export default function LoginPage() {
                 <div className="flex justify-center mt-9">
                     <div className="w-[291px] h-[47px]">
                         <Password value={password} onChange={setPassword} />
+                        {loginError && (<div className="text-red-500 text-sm">Incorrect username or password</div>
+                        )}
                     </div>
                 </div>
                 <div className="flex justify-center mt-10">
                     <div className="w-[291px] h-[60px]">
-                        <button type="button" className="text-white w-full bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" 
-                        onClick={handleLoginClick} >Login</button>
+                        <button type="button" className="text-white w-full bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            onClick={handleLoginClick} >Login</button>
                     </div>
                 </div>
                 <div className="flex justify-center">
