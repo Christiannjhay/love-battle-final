@@ -11,6 +11,7 @@ import SignupButton from "../SignUp/SignupButton"
 import SignInOption from "../SignUp/SignInOption"
 import CoupleCode from "../SignUp/CoupleCode"
 
+
 export default function SignupPage() {
     const [name, setName] = useState('');
     const [username, setUsername] = useState('');
@@ -20,27 +21,31 @@ export default function SignupPage() {
     const navigate = useNavigate();
 
     const handleSignupSubmit = async () => {
-    
+        let FinalCode = 0
+        if(couplecode === ''){
+            FinalCode = 0
+        }
+        else{
+            FinalCode = couplecode
+        }
         try {
             const response = await fetch('http://localhost:5209/api/register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        name: name,
-                        username: username,
-                        password: password,
-                        birthday: birthday,
-                        anniversary: birthday,
-                        isCreatingCouple: true,
-                        coupleCode: couplecode,
-                         
-                    })
-                });
-                if (response.ok) {
-                    navigate('/');
-                } else {
-                    
-                } 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: name,
+                    username: username,
+                    password: password,
+                    birthday: birthday,
+                    coupleCode: FinalCode,
+
+                })
+            });
+            if (response.ok) {
+                navigate('/');
+            } else {
+
+            }
 
         } catch (error) {
             console.error('Error during signup:', error);
@@ -59,7 +64,7 @@ export default function SignupPage() {
                 </div>
                 <div className="flex justify-center mt-7">
                     <div className="w-[291px] h-[47px]">
-                        <Name value={name} onChange={setName}/>
+                        <Name value={name} onChange={setName} />
                     </div>
                 </div>
                 <div className="flex justify-center mt-9 ">
@@ -69,23 +74,23 @@ export default function SignupPage() {
                 </div>
                 <div className="flex justify-center mt-9 ">
                     <div className="w-[291px] h-[47px]">
-                        <Birthday value={birthday} onChange={setBirthday}/>
+                        <Birthday value={birthday} onChange={setBirthday} />
                     </div>
                 </div>
                 <div className="flex justify-center mt-9">
                     <div className="w-[291px] h-[47px]">
-                        <Password value={password} onChange={setPassword}/>
+                        <Password value={password} onChange={setPassword} />
                     </div>
                 </div>
                 <div className="flex justify-center mt-9">
                     <div className="w-[291px] h-[47px]">
-                        <CoupleCode value={couplecode} onChange={setCoupleCode}/>
+                        <CoupleCode value={couplecode} onChange={setCoupleCode} />
                     </div>
                 </div>
                 <div className="flex justify-center mt-10">
                     <div className="w-[291px] h-[60px]">
                         <button type="button" className="text-white w-full bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        onClick={handleSignupSubmit}>Sign Up</button>
+                            onClick={handleSignupSubmit}>Sign Up</button>
                     </div>
                 </div>
                 <div className="flex justify-center">
