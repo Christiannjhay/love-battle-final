@@ -25,7 +25,7 @@ export default function LoginPage() {
                 body: JSON.stringify({ username, password })
             });
             if (response.ok) {
-                const data = await response.json(); // Parse the response
+                const data = await response.json();
                 const jwtToken = data.token;
                 const refreshToken = data.refreshToken;
 
