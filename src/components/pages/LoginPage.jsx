@@ -28,12 +28,14 @@ export default function LoginPage() {
                 const data = await response.json();
                 const jwtToken = data.token;
                 const refreshToken = data.refreshToken;
+                const userId = data.userId;
 
-                // Store tokens (see below) 
+               
                 console.log("Token:", jwtToken);
                 console.log("RefreshToken:", refreshToken);
+                console.log("UserID", userId);
 
-                navigate('/home');
+                navigate(`/home/${userId}`);
             } else {
                 setLoginError(true);
             }
